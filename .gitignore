@@ -1,0 +1,28 @@
+database.db
+
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folders (Linux/macOS)
+bin/
+include/
+lib/
+lib64/
+
+# Virtual environment files
+pyvenv.cfg
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

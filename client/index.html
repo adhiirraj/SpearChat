@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpearChat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app-container">
+        <div id="auth-view" class="view active">
+            <div class="auth-card">
+                <h1>SpearChat</h1>
+                <div class="auth-tabs">
+                    <button id="tab-login" class="active" onclick="ui.switchAuthTab('login')">login</button>
+                    <button id="tab-register" onclick="ui.switchAuthTab('register')">register</button>
+                </div>
+                <form id="auth-form" onsubmit="auth.submit(event)">
+                    <input id="username" placeholder="Username" required autocomplete="off">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <div id="auth-error" class="hidden"></div>
+                    <button type="submit" id="auth-submit-btn">login</button>
+                </form>
+            </div>
+        </div>
+        
+        <div id="chat-view" class="view hidden">
+            <div class="sidebar">
+                <h1>SpearChat</h1>
+                <h3>DMs</h3>
+                <ul id="dm-list"></ul>
+                
+                <h3>Rooms</h3>
+                <ul id="room-list"></ul>
+            </div>
+            
+            <div class="main-chat">
+                <div id="chat-messages" class="chat-messages"></div>
+                <div class="chat-input-area">
+                    <form id="chat-form" onsubmit="chat.sendForm(event)">
+                        <input id="chat-input" autocomplete="off">
+                        <button type="submit">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/liboqs-js/liboqs.js"></script>
+    <script src="ui.js"></script>
+    <script src="crypto.js"></script>
+    <script src="auth.js"></script>
+    <script src="chat.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
