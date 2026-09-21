@@ -3,50 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpearChat</title>
+    <title>STUDIO—SPEARCHAT</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="app-container">
+        <!-- Auth View -->
         <div id="auth-view" class="view active">
             <div class="auth-card">
-                <h1>SpearChat</h1>
+                <div class="auth-header">
+                    <h1>SPEARCHAT</h1>
+                </div>
                 <div class="auth-tabs">
-                    <button id="tab-login" class="active" onclick="ui.switchAuthTab('login')">login</button>
-                    <button id="tab-register" onclick="ui.switchAuthTab('register')">register</button>
+                    <button id="tab-login" class="active" onclick="ui.switchAuthTab('login')">LOGIN</button>
+                    <button id="tab-register" onclick="ui.switchAuthTab('register')">REGISTER</button>
                 </div>
                 <form id="auth-form" onsubmit="auth.submit(event)">
-                    <input id="username" placeholder="Username" required autocomplete="off">
-                    <input type="password" id="password" placeholder="Password" required>
+                    <input id="username" placeholder="USERNAME" required autocomplete="off" oninput="this.value = this.value.toLowerCase()">
+                    <input type="password" id="password" placeholder="PASSWORD" required>
                     <div id="auth-error" class="hidden"></div>
-                    <button type="submit" id="auth-submit-btn">login</button>
+                    <button type="submit" id="auth-submit-btn">LOGIN</button>
                 </form>
             </div>
         </div>
         
+        <!-- Main Chat View (3 Columns) -->
         <div id="chat-view" class="view hidden">
-            <div class="sidebar">
-                <h1>SpearChat</h1>
-                <h3>DMs</h3>
-                <ul id="dm-list"></ul>
+            
+            <!-- Left Panel: Sidebar -->
+            <div id="sidebar" class="panel">
+                <div id="logo">
+                    <h1>SPEARCHAT</h1>
+                </div>
                 
-                <h3>Rooms</h3>
-                <ul id="room-list"></ul>
+                <div class="section-label">ROOMS</div>
+                <div id="rooms-section">
+                    <!-- populated by JS -->
+                </div>
+                
+                <div class="section-label">DIRECT MESSAGES</div>
+                <div id="dms-section">
+                    <!-- populated by JS -->
+                </div>
+                
+                <button id="new-conv">+ NEW CONVERSATION</button>
             </div>
             
-            <div class="main-chat">
-                <div id="chat-messages" class="chat-messages"></div>
-                <div class="chat-input-area">
-                    <form id="chat-form" onsubmit="chat.sendForm(event)">
-                        <input id="chat-input" autocomplete="off">
-                        <button type="submit">Send</button>
-                    </form>
+            <!-- Center Panel: Chat -->
+            <div id="chat-panel" class="panel">
+                <div id="chat-header">
+                    <h2 id="active-chat-name">SELECT A CONVERSATION</h2>
+                    <span id="active-chat-members"></span>
+                </div>
+                
+                <div id="messages">
+                    <!-- populated by JS -->
+                </div>
+                
+                <div id="typing-indicator" class="hidden"></div>
+                
+                <div id="input-bar">
+                    <button id="attach-btn" title="Attach file">[+]</button>
+                    <input id="chat-input" placeholder="TYPE A MESSAGE..." autocomplete="off">
+                    <button id="send-btn" onclick="chat.sendForm(event)">SEND</button>
                 </div>
             </div>
+            
+            <!-- Right Panel: Info -->
+            <div id="right-panel" class="panel">
+                <div class="section-label">MEMBERS <a href="#" class="see-all">SEE ALL</a></div>
+                <div id="members">
+                    <!-- populated by JS -->
+                </div>
+                
+                <div class="section-label">SHARED MEDIA <a href="#" class="see-all">SEE ALL</a></div>
+                <div id="shared-media">
+                    <!-- populated by JS -->
+                </div>
+                
+                <div class="section-label">FILES <a href="#" class="see-all">SEE ALL</a></div>
+                <div id="files">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+            
         </div>
     </div>
     
-    <script src="https://unpkg.com/liboqs-js/liboqs.js"></script>
+
     <script src="ui.js"></script>
     <script src="crypto.js"></script>
     <script src="auth.js"></script>

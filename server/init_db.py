@@ -1,7 +1,9 @@
 import sqlite3
+import os
 
 def init_db():
-    connection = sqlite3.connect('database.db')
+    _db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'database.db')
+    connection = sqlite3.connect(_db_path)
     cursor = connection.cursor()
 
     cursor.execute('''
@@ -59,7 +61,6 @@ def init_db():
 
     connection.commit()
     connection.close()
-    print("Database tables created successfully!")
 
 if __name__ == "__main__":
     init_db()

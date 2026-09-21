@@ -3,6 +3,10 @@ import websockets
 import json
 import auth
 import router
+import db
+import init_db
+
+init_db.init_db()
 
 connected = {}
 
@@ -41,7 +45,21 @@ async def handler(websocket):
                 await websocket.send(json.dumps({"type": "auth_success"}))
                 
             elif user_id is not None:
-                if msg_type == "dm":
+                if msg_type == "register_pk":
+                    db.update_public_key(user_id, data.get("public_key"))
+                elif msg_type == "get_pk":
+                    await router.handle_get_pk(connected, user_id, data.get("username"))
+                elif msg_type == "fetch_sidebar":
+                    users = db.fetch_all_users(user_id)
+                    rooms = db.fetch_user_rooms(user_id)
+                    await websocket.send(json.dumps({
+                        "type": "sidebar_data",
+                        "dms": [{"username": u["username"]} for u in users],
+                        "rooms": rooms
+                    }))
+                elif msg_type == "typing":
+                    await router.route_typing(connected, user_id, data)
+                elif msg_type == "dm":
                     await router.route_dm(connected, user_id, data.get("to"), data)
                 elif msg_type == "room":
                     await router.route_room(connected, user_id, data.get("room_id"), data)

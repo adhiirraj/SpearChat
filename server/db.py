@@ -1,6 +1,8 @@
 import sqlite3
+import os
 
-connection = sqlite3.connect('database.db')
+_DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'database.db')
+connection = sqlite3.connect(_DB_PATH)
 
 def dict_factory(cursor, row):
     return {col[0]: row[idx] for idx, col in enumerate(cursor.description)}
@@ -65,4 +67,29 @@ def delete_session(token):
 
 def fetch_messages_by_room(room_id):
     cursor.execute('SELECT * FROM Messages WHERE room_id = ?', (room_id,))
+    return cursor.fetchall()
+
+def update_public_key(user_id, public_key):
+    cursor.execute(
+        'UPDATE Users SET public_key = ? WHERE id = ?',
+        (public_key, user_id)
+    )
+    connection.commit()
+
+def fetch_public_key(username):
+    cursor.execute('SELECT public_key FROM Users WHERE username = ?', (username,))
+    row = cursor.fetchone()
+    return row["public_key"] if row else None
+
+def fetch_all_users(exclude_id):
+    cursor.execute('SELECT username FROM Users WHERE id != ?', (exclude_id,))
+    return cursor.fetchall()
+
+def fetch_user_rooms(user_id):
+    cursor.execute('''
+        SELECT r.id, r.name 
+        FROM Rooms r
+        JOIN Memberships m ON r.id = m.room_id
+        WHERE m.user_id = ?
+    ''', (user_id,))
     return cursor.fetchall()
